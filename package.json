@@ -1,0 +1,24 @@
+{
+  "name": "_test_pw",
+  "version": "1.0.0",
+  "description": "A single static page packed with common UI elements — forms, modals, tabs, accordions, drag-and-drop, tables, delayed/async content, fake auth state, and a real API call — built as a personal sandbox for learning and testing [Playwright](https://playwright.dev/).",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Katalinux/test-pw-playground.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Katalinux/test-pw-playground/issues"
+  },
+  "homepage": "https://github.com/Katalinux/test-pw-playground#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.63.0"
+  }
+}
