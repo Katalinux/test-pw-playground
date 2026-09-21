@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Playwright Playground</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<div id="cookie-banner" class="cookie-banner" data-testid="cookie-banner" hidden>
+  <p>This site uses cookies for practicing Playwright, that's it.</p>
+  <button id="cookie-accept" data-testid="cookie-accept">Accept</button>
+</div>
+
+<header class="site-header">
+  <nav class="nav" data-testid="main-nav">
+    <span class="brand">Playwright Playground</span>
+    <ul>
+      <li><a href="#forms" data-testid="nav-forms">Forms</a></li>
+      <li><a href="#widgets" data-testid="nav-widgets">Widgets</a></li>
+      <li><a href="#async" data-testid="nav-async">Async</a></li>
+      <li><a href="#auth" data-testid="nav-auth">Auth</a></li>
+      <li><a href="#api" data-testid="nav-api">API</a></li>
+      <li><a href="about.html" data-testid="nav-about">About page</a></li>
+      <li><a href="https://github.com" target="_blank" rel="noopener" data-testid="nav-external">External (new tab)</a></li>
+    </ul>
+    <span id="session-status" class="session-status" data-testid="session-status">Logged out</span>
+  </nav>
+</header>
+
+<main>
+
+  <section class="hero">
+    <h1>Playwright Playground</h1>
+    <p>A single page full of forms, widgets, async states, fake auth, and a real API call — for practicing Playwright locators, actions, and assertions.</p>
+  </section>
+
+  <!-- ============ FORMS & INPUTS ============ -->
+  <section id="forms" data-testid="section-forms">
+    <h2>Forms &amp; Inputs</h2>
+    <form id="demo-form" data-testid="demo-form" novalidate>
+      <div class="field">
+        <label for="full-name">Full name</label>
+        <input type="text" id="full-name" name="fullName" data-testid="input-name" required minlength="2" />
+        <span class="error" data-testid="error-name"></span>
+      </div>
+
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" data-testid="input-email" required />
+        <span class="error" data-testid="error-email"></span>
+      </div>
+
+      <div class="field">
+        <label for="age">Age</label>
+        <input type="number" id="age" name="age" data-testid="input-age" min="0" max="120" />
+      </div>
+
+      <div class="field">
+        <label for="birthdate">Birth date</label>
+        <input type="date" id="birthdate" name="birthdate" data-testid="input-birthdate" />
+      </div>
+
+      <div class="field">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" data-testid="input-password" required minlength="6" />
+        <span class="error" data-testid="error-password"></span>
+      </div>
+
+      <div class="field">
+        <label for="country">Country</label>
+        <select id="country" name="country" data-testid="input-country">
+          <option value="">Choose one</option>
+          <option value="ro">Romania</option>
+          <option value="us">United States</option>
+          <option value="de">Germany</option>
+          <option value="fr">France</option>
+        </select>
+      </div>
+
+      <fieldset class="field">
+        <legend>Plan</legend>
+        <label><input type="radio" name="plan" value="free" data-testid="radio-plan-free" checked /> Free</label>
+        <label><input type="radio" name="plan" value="pro" data-testid="radio-plan-pro" /> Pro</label>
+        <label><input type="radio" name="plan" value="team" data-testid="radio-plan-team" /> Team</label>
+      </fieldset>
+
+      <div class="field">
+        <label><input type="checkbox" id="newsletter" name="newsletter" data-testid="checkbox-newsletter" /> Subscribe to newsletter</label>
+        <label><input type="checkbox" id="terms" name="terms" data-testid="checkbox-terms" required /> I accept the terms</label>
+        <span class="error" data-testid="error-terms"></span>
+      </div>
+
+      <div class="field">
+        <label for="bio">Bio</label>
+        <textarea id="bio" name="bio" data-testid="input-bio" rows="3"></textarea>
+      </div>
+
+      <div class="field">
+        <label for="avatar">Upload avatar</label>
+        <input type="file" id="avatar" name="avatar" data-testid="input-file" accept="image/*" />
+        <span id="file-name" data-testid="file-name"></span>
+      </div>
+
+      <button type="submit" data-testid="submit-form">Submit</button>
+      <p id="form-success" class="success-msg" data-testid="form-success" hidden>Form submitted successfully!</p>
+    </form>
+  </section>
+
+  <!-- ============ INTERACTIVE WIDGETS ============ -->
+  <section id="widgets" data-testid="section-widgets">
+    <h2>Interactive Widgets</h2>
+
+    <div class="widget-block">
+      <button id="open-modal" data-testid="open-modal">Open modal</button>
+      <dialog id="demo-modal" data-testid="demo-modal">
+        <h3>A modal dialog</h3>
+        <p>This is a native <code>&lt;dialog&gt;</code> element.</p>
+        <button id="close-modal" data-testid="close-modal">Close</button>
+      </dialog>
+    </div>
+
+    <div class="widget-block">
+      <h3>Tabs</h3>
+      <div class="tabs" data-testid="tabs">
+        <div class="tab-list" role="tablist">
+          <button class="tab-btn active" data-tab="tab-1" data-testid="tab-btn-1" role="tab">Tab One</button>
+          <button class="tab-btn" data-tab="tab-2" data-testid="tab-btn-2" role="tab">Tab Two</button>
+          <button class="tab-btn" data-tab="tab-3" data-testid="tab-btn-3" role="tab">Tab Three</button>
+        </div>
+        <div class="tab-panel active" id="tab-1" data-testid="tab-panel-1">Content for tab one.</div>
+        <div class="tab-panel" id="tab-2" data-testid="tab-panel-2" hidden>Content for tab two.</div>
+        <div class="tab-panel" id="tab-3" data-testid="tab-panel-3" hidden>Content for tab three.</div>
+      </div>
+    </div>
+
+    <div class="widget-block">
+      <h3>Accordion</h3>
+      <div class="accordion" data-testid="accordion">
+        <div class="accordion-item">
+          <button class="accordion-header" data-testid="accordion-header-1">Section 1</button>
+          <div class="accordion-body" data-testid="accordion-body-1" hidden>Details for section 1.</div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-header" data-testid="accordion-header-2">Section 2</button>
+          <div class="accordion-body" data-testid="accordion-body-2" hidden>Details for section 2.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="widget-block">
+      <h3>Tooltip &amp; dropdown</h3>
+      <button class="tooltip-trigger" title="I am a native tooltip" data-testid="tooltip-trigger">Hover me</button>
+
+      <div class="dropdown" data-testid="dropdown">
+        <button id="dropdown-toggle" data-testid="dropdown-toggle">Menu ▾</button>
+        <ul id="dropdown-menu" class="dropdown-menu" data-testid="dropdown-menu" hidden>
+          <li data-testid="dropdown-item-1">Item 1</li>
+          <li data-testid="dropdown-item-2">Item 2</li>
+          <li data-testid="dropdown-item-3">Item 3</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="widget-block">
+      <h3>Drag and drop</h3>
+      <ul id="drag-list" class="drag-list" data-testid="drag-list">
+        <li draggable="true" data-testid="drag-item-1">Item A</li>
+        <li draggable="true" data-testid="drag-item-2">Item B</li>
+        <li draggable="true" data-testid="drag-item-3">Item C</li>
+      </ul>
+    </div>
+
+    <div class="widget-block">
+      <h3>Slider</h3>
+      <input type="range" id="volume" min="0" max="100" value="50" data-testid="slider-volume" />
+      <span id="volume-value" data-testid="slider-value">50</span>
+    </div>
+
+    <div class="widget-block">
+      <h3>Sortable, paginated table</h3>
+      <table id="data-table" data-testid="data-table">
+        <thead>
+          <tr>
+            <th data-sort="name" data-testid="th-name">Name</th>
+            <th data-sort="score" data-testid="th-score">Score</th>
+          </tr>
+        </thead>
+        <tbody data-testid="table-body"></tbody>
+      </table>
+      <div class="pagination" data-testid="pagination">
+        <button id="prev-page" data-testid="prev-page">Prev</button>
+        <span id="page-indicator" data-testid="page-indicator">Page 1</span>
+        <button id="next-page" data-testid="next-page">Next</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ NAVIGATION & ASYNC ============ -->
+  <section id="async" data-testid="section-async">
+    <h2>Navigation &amp; Async</h2>
+
+    <div class="widget-block">
+      <h3>Delayed content</h3>
+      <button id="load-delayed" data-testid="load-delayed">Load delayed content</button>
+      <div id="spinner" class="spinner" data-testid="spinner" hidden>Loading…</div>
+      <p id="delayed-content" data-testid="delayed-content" hidden>Here is content that appeared after a delay.</p>
+    </div>
+
+    <div class="widget-block">
+      <h3>Load more list</h3>
+      <ul id="load-more-list" data-testid="load-more-list"></ul>
+      <button id="load-more-btn" data-testid="load-more-btn">Load more</button>
+    </div>
+
+    <div class="widget-block">
+      <h3>Iframe</h3>
+      <iframe src="about.html" title="Embedded about page" data-testid="embedded-frame" width="100%" height="150"></iframe>
+    </div>
+  </section>
+
+  <!-- ============ AUTH / STATE SIMULATION ============ -->
+  <section id="auth" data-testid="section-auth">
+    <h2>Auth / State Simulation</h2>
+
+    <div id="login-block" data-testid="login-block">
+      <form id="login-form" data-testid="login-form">
+        <div class="field">
+          <label for="login-username">Username</label>
+          <input type="text" id="login-username" data-testid="login-username" required />
+        </div>
+        <div class="field">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" data-testid="login-password" required />
+        </div>
+        <button type="submit" data-testid="login-submit">Log in</button>
+        <p id="login-error" class="error" data-testid="login-error" hidden>Please enter both fields.</p>
+      </form>
+    </div>
+
+    <div id="logged-in-block" data-testid="logged-in-block" hidden>
+      <p>Welcome back, <span id="welcome-name" data-testid="welcome-name"></span>!</p>
+      <button id="logout-btn" data-testid="logout-btn">Log out</button>
+    </div>
+  </section>
+
+  <!-- ============ API TESTING ============ -->
+  <section id="api" data-testid="section-api">
+    <h2>API Testing</h2>
+    <p>Fetches real data from <a href="https://jsonplaceholder.typicode.com/" target="_blank" rel="noopener">JSONPlaceholder</a> — a good target for Playwright network mocking (<code>page.route</code>).</p>
+    <button id="fetch-posts" data-testid="fetch-posts">Fetch posts</button>
+    <div id="api-loading" class="spinner" data-testid="api-loading" hidden>Loading…</div>
+    <p id="api-error" class="error" data-testid="api-error" hidden>Failed to load posts.</p>
+    <ul id="api-results" data-testid="api-results"></ul>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <p>Built for Playwright practice.</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
