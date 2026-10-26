@@ -235,3 +235,24 @@ def test_drag_and_drop_moves_item_to_top(page: Page):
     )
     print('Items after drag:', items.all_text_contents())
     expect(items).to_have_text(["Item C", "Item A", "Item B"])
+
+
+def test_file_upload_via_file_chooser(page: Page, tmp_path):
+    avatar = tmp_path / "photo.png"
+    avatar.write_bytes(b"fake-png")
+
+    with page.expect_file_chooser() as chooser_info:
+        page.get_by_label("Upload avatar").click()
+    chooser_info.value.set_files(avatar)
+
+    expect(page.get_by_test_id("file-name")).to_have_text("photo.png")
+    expect(page.get_by_test_id("input-file")).to_have_value(re.compile(r"photo\.png$"))
+
+
+def test_file_upload_can_be_cleared(page: Page):
+    file_input = page.get_by_test_id("input-file")
+    file_input.set_input_files({"name": "avatar.png", "mimeType": "image/png", "buffer": b"fake-png"})
+    expect(page.get_by_test_id("file-name")).to_have_text("avatar.png")
+
+    file_input.set_input_files([])
+    expect(page.get_by_test_id("file-name")).to_be_empty()
